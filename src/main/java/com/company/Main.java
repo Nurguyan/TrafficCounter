@@ -3,19 +3,17 @@ package com.company;
 import com.company.database.IDataBaseConstants;
 import com.company.javakafka.ConsumerCreator;
 import com.company.javakafka.constants.IKafkaConstants;
-import com.sun.rowset.JdbcRowSetImpl;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
-import javax.sql.rowset.JdbcRowSet;
 import java.io.IOException;
 import java.sql.*;
 
 public class Main {
 
-    public static PcapNetworkInterface getNetworkDevice() {
+    private static PcapNetworkInterface getNetworkDevice() {
         PcapNetworkInterface device = null;
         try {
             device = new NifSelector().selectNetworkInterface();
@@ -25,7 +23,7 @@ public class Main {
         return device;
     }
 
-    public static void runConsumer() {
+    private static void runConsumer() {
         Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
         int noMessageFound = 0;
 
@@ -61,21 +59,9 @@ public class Main {
         System.out.println("Filter: " + filter);
         final TrafficCounter trafficCounter = new TrafficCounter(getNetworkDevice(), filter, 5*60, 20*60);
 
-        Thread trafficCounterThread = new Thread(){
-            public void run(){
-                trafficCounter.openTraffic();
-            }
-        };
-        Thread trafficPeriodThread = new Thread(){
-            public void run(){
-                trafficCounter.getCurrentTrafficCount();
-            }
-        };
-        Thread updateLimitsThread = new Thread(){
-            public void run(){
-                trafficCounter.getLimitsEveryPeriod();
-            }
-        };
+        Thread trafficCounterThread = new Thread(() -> trafficCounter.openTraffic());
+        Thread trafficPeriodThread = new Thread(() -> trafficCounter.getCurrentTrafficCount());
+        Thread updateLimitsThread = new Thread(() -> trafficCounter.getLimitsEveryPeriod());
 
         trafficCounterThread.start();
         trafficPeriodThread.start();

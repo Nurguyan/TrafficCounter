@@ -72,20 +72,8 @@ public class TrafficCounter extends Thread{
         listener.createListener(func);
     }
 
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
-
     public PcapHandle getHandle() {
         return handle;
-    }
-
-    public void setHandle(PcapHandle filter) {
-        this.handle = handle;
     }
 
     private void assignLimits(){
@@ -96,7 +84,7 @@ public class TrafficCounter extends Thread{
         System.out.println(formatter.format(date) + " Limits have been updated: min = " + minLimit + " max = " + maxLimit);
     }
 
-    public void getLimitsEveryPeriod() {
+    void getLimitsEveryPeriod() {
 
         TimerTask getLimitsEveryPeriod = new TimerTask() {
             @Override
@@ -138,7 +126,7 @@ public class TrafficCounter extends Thread{
 
     }
 
-    public void getCurrentTrafficCount(){
+    void getCurrentTrafficCount(){
 
         TimerTask countTraffic = new TimerTask(){
             @Override

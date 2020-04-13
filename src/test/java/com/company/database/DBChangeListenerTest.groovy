@@ -1,7 +1,7 @@
 package com.company.database
 
 import org.junit.Test
-import org.testng.Assert
+import org.junit.Assert
 import java.util.concurrent.Callable
 
 class DBChangeListenerTest extends DataBaseTest {
@@ -19,7 +19,7 @@ class DBChangeListenerTest extends DataBaseTest {
 
         testGetMinLimit()
 
-        sleep(5000)
+        Thread.sleep(5000)
         Assert.assertTrue(listener_works)
     }
 }

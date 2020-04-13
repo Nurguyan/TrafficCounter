@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.concurrent.Callable;
 
 public class DBChangeListener {
-    public static PGConnection con;
+    private static PGConnection con;
 
     public DBChangeListener(){
         try{
